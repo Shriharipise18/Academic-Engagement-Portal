@@ -52,6 +52,17 @@ app.use("/api/club-registrations", clubRegistrationRoutes);
 app.use("/api/club-interest", clubInterestRoutes);
 app.use("/api/ai", aiRoutes);
 
+/* Production Setup */
+if (process.env.NODE_ENV === 'production') {
+  const buildPath = path.join(__dirname, '../../frontend/build');
+  app.use(express.static(buildPath));
+
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api')) {
+      res.sendFile(path.join(buildPath, 'index.html'));
+    }
+  });
+}
 
 /* Error handler */
 app.use(errorHandler);

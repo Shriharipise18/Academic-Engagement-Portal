@@ -468,14 +468,48 @@ npm run dev
 ```bash
 cd frontend
 npm install
-npm start
+npm run build
 ```
 
-### 5. Access the app
-| Service | URL |
-|---------|-----|
-| Frontend | http://localhost:3000 |
-| Backend API | http://localhost:5000 |
+### 5. Start Production Server
+```bash
+# Set environment to production and start
+# On Linux/macOS:
+NODE_ENV=production npm start
+# On Windows (PowerShell):
+$env:NODE_ENV="production"; npm start
+```
+
+### 🚀 Production Quick Start (One Command)
+If you have `concurrently` installed in the root, you can use:
+```bash
+# Install all dependencies at once
+npm run install:all
+
+# Build and start in production
+npm run build && NODE_ENV=production npm start
+```
+
+---
+
+## ☁️ Deployment Guide
+
+### Render / Railway / Heroku
+1. **Root Directory**: Set to `.`
+2. **Build Command**: `npm run build`
+3. **Start Command**: `npm start`
+4. **Env Variables**:
+   - `NODE_ENV`: `production`
+   - `DATABASE_URL`: Your cloud DB connection string
+   - `JWT_SECRET`: A long random string
+   - `GROQ_API_KEY`: Your Groq API key
+
+---
+
+| Service | URL | Fallback |
+|---------|-----|----------|
+| Frontend | http://localhost:5000 | (Served by Backend) |
+| Backend API | http://localhost:5000/api | |
 
 ---
 

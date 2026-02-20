@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import "./EventDetails.css";
@@ -64,7 +64,7 @@ export default function EventDetails() {
   }, []);
 
   // Fetch event details
-  const fetchEvent = async () => {
+  const fetchEvent = useCallback(async () => {
     try {
       const res = await api.get(`/events/${eventId}`);
       setEvent(res.data);
@@ -79,26 +79,26 @@ export default function EventDetails() {
     } catch (err) {
       console.error("Failed to fetch Event/Session", err);
     }
-  };
+  }, [eventId]);
 
-  const fetchAttendees = async () => {
+  const fetchAttendees = useCallback(async () => {
     try {
       const res = await api.get(`/event-registrations/${eventId}/attendees`);
       setAttendees(res.data);
     } catch (err) {
       // User likely not authorized, ignore
     }
-  };
+  }, [eventId]);
 
   useEffect(() => {
     fetchEvent();
-  }, [eventId]);
+  }, [fetchEvent]);
 
   useEffect(() => {
     if (user && event) {
       fetchAttendees();
     }
-  }, [user, event]);
+  }, [user, event, fetchAttendees]);
 
   if (!event || !user) return <p>Loading Events/Sessions...</p>;
 

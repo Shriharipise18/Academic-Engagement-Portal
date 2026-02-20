@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./ClubDetails.css";
 import api, { BACKEND_URL } from "../api/axios";
@@ -46,17 +46,7 @@ export default function ClubDetails() {
 
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
-  useEffect(() => {
-    fetchClub();
-  }, [clubId]);
-
-  const showToast = (msg, type = "success") => {
-    setToastType(type);
-    setToast(msg);
-    setTimeout(() => setToast(null), 2500);
-  };
-
-  const fetchClub = async () => {
+  const fetchClub = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
       const res = await api.get(`/clubs/${clubId}`, {
@@ -103,7 +93,11 @@ export default function ClubDetails() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [clubId, user]);
+
+  useEffect(() => {
+    fetchClub();
+  }, [fetchClub]);
 
 
   const canManageClub = user && club && (
@@ -278,24 +272,6 @@ export default function ClubDetails() {
     }
   };
 
-  const handleMarkInterested = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        showToast("Please login to mark interest", "error");
-        navigate("/login");
-        return;
-      }
-
-      await api.post(`/club-interest/${clubId}/interested`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      showToast("You will be notified when registration opens! 🔔", "success");
-    } catch (err) {
-      showToast(err.response?.data?.message || "Failed to mark interest", "error");
-    }
-  };
 
 
 

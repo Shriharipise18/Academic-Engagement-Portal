@@ -7,7 +7,6 @@ import EventCard from "../components/EventCard";
 
 
 export default function Account() {
-  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
   const clubsRef = useRef(null);
 
@@ -37,7 +36,7 @@ export default function Account() {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [isProfileOnly]);
 
   const fetchMyClubs = async () => {
     try {

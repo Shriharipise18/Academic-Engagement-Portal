@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import ClubCard from "../components/ClubCard";
 import api from "../api/axios";
 import "./Clubs.css";
@@ -23,7 +23,7 @@ export default function Clubs() {
 
   const user = JSON.parse(localStorage.getItem("user") || "null"); // { id, role_id, name }
 
-  const fetchClubs = async () => {
+  const fetchClubs = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
@@ -44,11 +44,11 @@ export default function Clubs() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     fetchClubs();
-  }, []);
+  }, [fetchClubs]);
 
   const addClub = async () => {
     if (!newClubName || !newClubDesc || !newClubKey) {

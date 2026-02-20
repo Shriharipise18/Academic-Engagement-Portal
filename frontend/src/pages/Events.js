@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import EventCard from "../components/EventCard";
 import api from "../api/axios";
 
@@ -9,10 +9,8 @@ export default function Events() {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     try {
-      const token = localStorage.getItem("token");
-
       const res = await api.get("/events");
       setEvents(res.data);
 
@@ -31,11 +29,11 @@ export default function Events() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [fetchEvents]);
 
   if (loading) return <p>Loading Event/Session...</p>;
 

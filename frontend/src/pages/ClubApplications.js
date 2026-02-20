@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ClubApplications.css';
 import api, { BACKEND_URL } from '../api/axios';
@@ -16,11 +16,7 @@ export default function ClubApplications() {
 
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-    useEffect(() => {
-        fetchData();
-    }, [clubId]);
-
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
 
@@ -40,7 +36,11 @@ export default function ClubApplications() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [clubId]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     const showToast = (msg, type = 'success') => {
         setToast({ msg, type });
@@ -83,7 +83,6 @@ export default function ClubApplications() {
     const isHead = Number(user.id) === Number(club?.club_head_id);
     const isMentor = Number(user.id) === Number(club?.club_mentor_id);
     const isAdmin = user.role_id === 4 || user.role_name === 'Admin';
-    const canManage = isHead || isMentor || isAdmin;
 
     return (
         <div className="applications-container">

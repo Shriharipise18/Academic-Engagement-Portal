@@ -113,7 +113,7 @@ export default function PermissionRequestForm() {
         }
 
         try {
-            const response = await api.post("/permissions/create", formData);
+            await api.post("/permissions/create", formData);
 
             setType("success");
             setMessage("Permission request submitted successfully! It will be reviewed by authorities.");

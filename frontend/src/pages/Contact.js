@@ -32,10 +32,10 @@ const Contact = () => {
         <div className="contact-card">
           <h2>Follow Us</h2>
           <div className="social-icons">
-            <a href="#">📘 Facebook</a>
-            <a href="#">🐦 Twitter</a>
-            <a href="#">📸 Instagram</a>
-            <a href="#">💼 LinkedIn</a>
+            <a href="#!">📘 Facebook</a>
+            <a href="#!">🐦 Twitter</a>
+            <a href="#!">📸 Instagram</a>
+            <a href="#!">💼 LinkedIn</a>
           </div>
           <p>Follow us on social media to stay updated with club events and announcements.</p>
         </div>

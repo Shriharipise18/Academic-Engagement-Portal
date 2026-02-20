@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
@@ -69,7 +69,7 @@ export default function MyEvents() {
         setTimeout(() => setToast(null), 2500);
     };
 
-    const fetchEvents = () => {
+    const fetchEvents = useCallback(() => {
         if (!user?.club_id) { setLoading(false); return; }
         api.get("/events")
             .then(res => {
@@ -78,9 +78,9 @@ export default function MyEvents() {
             })
             .catch(() => showToast("Failed to load events", "error"))
             .finally(() => setLoading(false));
-    };
+    }, [user?.club_id]);
 
-    useEffect(() => { fetchEvents(); }, []);
+    useEffect(() => { fetchEvents(); }, [fetchEvents]);
 
     const handleCreateEvent = async (e) => {
         e.preventDefault();

@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar"; // must match path exactly
-import Events from "./pages/Events";
 import Clubs from "./pages/Clubs";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
@@ -13,7 +12,6 @@ import Account from "./pages/Account"
 import HomePage from "./pages/HomePage";
 import ClubDetails from "./pages/ClubDetails"; // import the details page
 import EventDetails from "./pages/EventDetails";
-import { useLocation } from "react-router-dom";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import PermissionRequestForm from "./components/PermissionRequestForm";

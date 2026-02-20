@@ -4,12 +4,6 @@ import "./EventCard.css";
 
 export default function EventCard({ event, isRegistered }) {
   const navigate = useNavigate();
-  const [toast, setToast] = useState(null); // { message, type }
-
-  const showToast = (message, type = "success") => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
-  };
 
   const user = JSON.parse(localStorage.getItem("user"));
   const isOrganizer = user && event.organizer_id === user.id;

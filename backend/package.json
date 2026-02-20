@@ -19,6 +19,7 @@
     "dotenv": "^17.2.3",
     "express": "^4.22.1",
     "form-data": "^4.0.5",
+    "groq-sdk": "^0.37.0",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.0.2",
     "mysql2": "^3.16.2"

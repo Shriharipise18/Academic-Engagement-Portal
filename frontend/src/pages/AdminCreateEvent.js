@@ -11,6 +11,33 @@ export default function AdminCreateEvent({ onEventCreated }) {
   });
   const [toast, setToast] = useState(null);
   const [type, setType] = useState("success");
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleAIGenerate = async () => {
+    if (!form.title) {
+      setType("error");
+      setToast("Please enter a title first!");
+      setTimeout(() => setToast(null), 2500);
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      const response = await api.post("/ai/generate", {
+        title: form.title,
+        type: "event"
+      });
+      setForm(prev => ({ ...prev, description: response.data.content }));
+      setType("success");
+      setToast("✨ AI generated description!");
+    } catch {
+      setType("error");
+      setToast("AI generation failed. Check GROQ_API_KEY.");
+    } finally {
+      setIsGenerating(false);
+      setTimeout(() => setToast(null), 2500);
+    }
+  };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -51,6 +78,15 @@ export default function AdminCreateEvent({ onEventCreated }) {
           value={form.title}
           onChange={e => setForm({ ...form, title: e.target.value })}
         />
+        <button
+          type="button"
+          className="ai-gen-btn"
+          onClick={handleAIGenerate}
+          disabled={isGenerating}
+          style={{ marginBottom: '1rem' }}
+        >
+          {isGenerating ? "✨ Generating..." : "✨ AI Generate Description"}
+        </button>
 
         <input
           placeholder="Description"

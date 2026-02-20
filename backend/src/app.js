@@ -14,6 +14,7 @@ import permissionRoutes from "./routes/permission.routes.js";
 import notificationRoutes from "./routes/notification.routes.js";
 import clubRegistrationRoutes from "./routes/clubRegistration.routes.js";
 import clubInterestRoutes from "./routes/clubInterest.routes.js";
+import aiRoutes from "./routes/ai.routes.js";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -49,6 +50,7 @@ app.use("/api/permissions", permissionRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/club-registrations", clubRegistrationRoutes);
 app.use("/api/club-interest", clubInterestRoutes);
+app.use("/api/ai", aiRoutes);
 
 
 /* Error handler */

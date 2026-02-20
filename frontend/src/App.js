@@ -21,11 +21,13 @@ import MyRequestsList from "./components/MyRequestsList";
 import ApprovalDashboard from "./components/ApprovalDashboard";
 import ClubApplications from "./pages/ClubApplications";
 import MyEvents from "./pages/MyEvents";
+import AIAssistant from "./components/AIAssistant";
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar /> {/* <-- navbar here */}
+      <AIAssistant />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />

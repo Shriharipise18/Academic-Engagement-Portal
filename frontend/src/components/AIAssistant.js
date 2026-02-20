@@ -34,10 +34,13 @@ const AIAssistant = () => {
             setMessages(prev => [...prev, assistantMessage]);
         } catch (error) {
             console.error('AI Chat Error:', error);
-            setMessages(prev => [...prev, {
-                role: 'assistant',
-                content: 'Sorry, I encountered an error. Please make sure your GROQ_API_KEY is configured.'
-            }]);
+            let errorMsg = 'Sorry, I encountered an error. Please make sure your GROQ_API_KEY is configured.';
+
+            if (error.response?.status === 401 || error.response?.status === 403) {
+                errorMsg = 'Please log in to use the AI Assistant.';
+            }
+
+            setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
         } finally {
             setIsLoading(false);
         }

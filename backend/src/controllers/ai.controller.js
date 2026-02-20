@@ -1,16 +1,18 @@
 import aiService from "../services/ai.service.js";
 
 export const generateContent = async (req, res, next) => {
-    const { title, type } = req.body;
-
-    if (!title) {
-        return res.status(400).json({ message: "Title is required for AI generation" });
-    }
+    const { title, name, tagline, clubName, studentName, subject, action, type } = req.body;
 
     try {
         let result;
         if (type === "permission") {
             result = await aiService.generatePermissionRequest(title);
+        } else if (type === "club") {
+            result = await aiService.generateClubDescription(name, tagline);
+        } else if (type === "sop") {
+            result = await aiService.generateSOP(clubName, studentName);
+        } else if (type === "remarks") {
+            result = await aiService.generateRemarks(subject, action);
         } else {
             result = await aiService.generateFormDescription(title, type);
         }

@@ -17,6 +17,29 @@ export default function RegistrationModal({ clubId, clubName, onClose, onSuccess
     const [profilePhoto, setProfilePhoto] = useState(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [isGenerating, setIsGenerating] = useState(false);
+
+    const handleAIGenerateSOP = async () => {
+        if (!formData.full_name) {
+            setError('Please enter your full name first!');
+            return;
+        }
+
+        setIsGenerating(true);
+        setError('');
+        try {
+            const response = await api.post("/ai/generate", {
+                clubName: clubName || "this club",
+                studentName: formData.full_name,
+                type: "sop"
+            });
+            setFormData(prev => ({ ...prev, statement_of_purpose: response.data.content }));
+        } catch {
+            setError('AI generation failed. Check GROQ_API_KEY.');
+        } finally {
+            setIsGenerating(false);
+        }
+    };
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -177,6 +200,15 @@ export default function RegistrationModal({ clubId, clubName, onClose, onSuccess
                         value={formData.statement_of_purpose}
                         onChange={(e) => setFormData({ ...formData, statement_of_purpose: e.target.value })}
                     />
+                    <button
+                        type="button"
+                        className="ai-gen-btn"
+                        onClick={handleAIGenerateSOP}
+                        disabled={isGenerating}
+                        style={{ marginTop: '0.5rem', marginBottom: '1rem', width: 'auto' }}
+                    >
+                        {isGenerating ? "✨ Generating..." : "✨ AI Generate SOP"}
+                    </button>
 
                     <label>Profile Photo (JPG/PNG) *</label>
                     <input

@@ -126,6 +126,51 @@ export default function ClubDetails() {
     }
   };
 
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleAIGenerateClub = async () => {
+    if (!formData.name) {
+      showToast("Please enter a club name first!", "error");
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      const response = await api.post("/ai/generate", {
+        name: formData.name,
+        tagline: formData.tagline,
+        type: "club"
+      });
+      setFormData(prev => ({ ...prev, description: response.data.content }));
+      showToast("✨ AI generated club description!");
+    } catch {
+      showToast("AI generation failed. Check GROQ_API_KEY.", "error");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleAIGenerateEvent = async () => {
+    if (!eventForm.title) {
+      showToast("Please enter an event title first!", "error");
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      const response = await api.post("/ai/generate", {
+        title: eventForm.title,
+        type: "event"
+      });
+      setEventForm(prev => ({ ...prev, description: response.data.content }));
+      showToast("✨ AI generated event description!");
+    } catch {
+      showToast("AI generation failed. Check GROQ_API_KEY.", "error");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   const submitEdit = async (e) => {
     e.preventDefault();
     try {
@@ -298,6 +343,15 @@ export default function ClubDetails() {
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             />
+            <button
+              type="button"
+              className="ai-gen-btn"
+              onClick={handleAIGenerateClub}
+              disabled={isGenerating}
+              style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', width: 'auto', marginBottom: '1rem' }}
+            >
+              {isGenerating ? "✨ Generating..." : "✨ AI Generate Description"}
+            </button>
 
             <label>Activities</label>
             <textarea
@@ -525,6 +579,15 @@ export default function ClubDetails() {
                   onChange={(e) => setEventForm({ ...eventForm, description: e.target.value })}
                   rows="3"
                 />
+                <button
+                  type="button"
+                  className="ai-gen-btn"
+                  onClick={handleAIGenerateEvent}
+                  disabled={isGenerating}
+                  style={{ marginTop: '0.5rem' }}
+                >
+                  {isGenerating ? "✨ Generating..." : "✨ AI Generate Description"}
+                </button>
               </div>
 
               <div className="form-group">

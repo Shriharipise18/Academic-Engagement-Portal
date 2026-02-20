@@ -58,6 +58,7 @@ export default function Login() {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          autoComplete="off"
         />
 
         <input
@@ -65,6 +66,7 @@ export default function Login() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          autoComplete="new-password"
         />
 
         <button type="submit" disabled={loading}>

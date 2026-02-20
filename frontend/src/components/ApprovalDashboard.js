@@ -10,6 +10,25 @@ export default function ApprovalDashboard() {
     const [actionLoading, setActionLoading] = useState(false);
     const [remarks, setRemarks] = useState("");
     const [showRejectModal, setShowRejectModal] = useState(false);
+    const [isGenerating, setIsGenerating] = useState(false);
+
+    const handleAIGenerateRemarks = async (action = "approve") => {
+        if (!selectedRequest) return;
+
+        setIsGenerating(true);
+        try {
+            const response = await api.post("/ai/generate", {
+                subject: selectedRequest.subject,
+                action: action,
+                type: "remarks"
+            });
+            setRemarks(response.data.content);
+        } catch {
+            alert("AI generation failed. Check GROQ_API_KEY.");
+        } finally {
+            setIsGenerating(false);
+        }
+    };
 
     useEffect(() => {
         fetchPendingRequests();
@@ -219,6 +238,15 @@ export default function ApprovalDashboard() {
                                             placeholder="Add any comments or notes..."
                                             rows="3"
                                         />
+                                        <button
+                                            type="button"
+                                            className="ai-gen-btn"
+                                            onClick={() => handleAIGenerateRemarks("approve")}
+                                            disabled={isGenerating}
+                                            style={{ marginTop: '0.4rem', marginBottom: '0.8rem', width: 'auto' }}
+                                        >
+                                            {isGenerating ? "✨ Generating..." : "✨ AI Generate Approval Remarks"}
+                                        </button>
                                     </div>
                                     <div className="action-buttons">
                                         <button
@@ -251,6 +279,15 @@ export default function ApprovalDashboard() {
                                         rows="4"
                                         className="reject-reason"
                                     />
+                                    <button
+                                        type="button"
+                                        className="ai-gen-btn"
+                                        onClick={() => handleAIGenerateRemarks("reject")}
+                                        disabled={isGenerating}
+                                        style={{ marginTop: '0.4rem', marginBottom: '1rem', width: 'auto' }}
+                                    >
+                                        {isGenerating ? "✨ Generating..." : "✨ AI Generate Rejection Reason"}
+                                    </button>
                                     <div className="confirm-buttons">
                                         <button
                                             className="btn-cancel"

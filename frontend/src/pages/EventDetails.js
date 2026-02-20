@@ -294,21 +294,23 @@ export default function EventDetails() {
             onChange={handleChange}
             placeholder="Title"
           />
-          <textarea
-            name="description"
-            value={form.description}
-            onChange={handleChange}
-            placeholder="Description"
-          />
-          <button
-            type="button"
-            className="ai-gen-btn"
-            onClick={handleAIGenerate}
-            disabled={isGenerating}
-            style={{ marginBottom: '1rem' }}
-          >
-            {isGenerating ? "✨ Generating..." : "✨ AI Generate Description"}
-          </button>
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={{ display: 'block', marginBottom: '8px' }}>Description</label>
+            <textarea
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              placeholder="Description"
+            />
+            <button
+              type="button"
+              className="ai-gen-btn"
+              onClick={handleAIGenerate}
+              disabled={isGenerating}
+            >
+              {isGenerating ? "✨ Generating..." : "✨ AI Generate Description"}
+            </button>
+          </div>
 
           <input
             type="date"
@@ -323,21 +325,23 @@ export default function EventDetails() {
             onChange={handleChange}
             placeholder="Venue"
           />
-          <textarea
-            name="additional_info"
-            value={form.additional_info}
-            onChange={handleChange}
-            placeholder="Additional Information"
-          />
-          <button
-            type="button"
-            className="ai-gen-btn"
-            onClick={handleAIGenerateAdditionalInfo}
-            disabled={isGenerating}
-            style={{ marginBottom: '1rem' }}
-          >
-            {isGenerating ? "✨ Generating..." : "✨ AI Generate Info"}
-          </button>
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={{ display: 'block', marginBottom: '8px' }}>Additional Information</label>
+            <textarea
+              name="additional_info"
+              value={form.additional_info}
+              onChange={handleChange}
+              placeholder="Additional Information"
+            />
+            <button
+              type="button"
+              className="ai-gen-btn"
+              onClick={handleAIGenerateAdditionalInfo}
+              disabled={isGenerating}
+            >
+              {isGenerating ? "✨ Generating..." : "✨ AI Generate Info"}
+            </button>
+          </div>
           <input
             type="text"
             name="conducted_by"

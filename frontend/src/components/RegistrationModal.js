@@ -193,22 +193,23 @@ export default function RegistrationModal({ clubId, clubName, onClose, onSuccess
                         onChange={(e) => setFormData({ ...formData, phone_no: e.target.value })}
                     />
 
-                    <label>Why are you aiming to join this club? *</label>
-                    <textarea
-                        required
-                        rows={4}
-                        value={formData.statement_of_purpose}
-                        onChange={(e) => setFormData({ ...formData, statement_of_purpose: e.target.value })}
-                    />
-                    <button
-                        type="button"
-                        className="ai-gen-btn"
-                        onClick={handleAIGenerateSOP}
-                        disabled={isGenerating}
-                        style={{ marginTop: '0.5rem', marginBottom: '1rem', width: 'auto' }}
-                    >
-                        {isGenerating ? "✨ Generating..." : "✨ AI Generate SOP"}
-                    </button>
+                    <div style={{ marginBottom: '1rem' }}>
+                        <label style={{ display: 'block', marginBottom: '8px' }}>Why are you aiming to join this club? *</label>
+                        <textarea
+                            required
+                            rows={4}
+                            value={formData.statement_of_purpose}
+                            onChange={(e) => setFormData({ ...formData, statement_of_purpose: e.target.value })}
+                        />
+                        <button
+                            type="button"
+                            className="ai-gen-btn"
+                            onClick={handleAIGenerateSOP}
+                            disabled={isGenerating}
+                        >
+                            {isGenerating ? "✨ Generating..." : "✨ AI Generate SOP"}
+                        </button>
+                    </div>
 
                     <label>Profile Photo (JPG/PNG) *</label>
                     <input

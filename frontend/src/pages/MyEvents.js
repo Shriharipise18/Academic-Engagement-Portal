@@ -226,7 +226,7 @@ export default function MyEvents() {
                             ))}
 
                             {["description", "additional_info"].map((key) => (
-                                <div key={key} style={{ marginBottom: "16px" }}>
+                                <div key={key} style={{ marginBottom: '16px' }}>
                                     <label style={{ display: "block", marginBottom: "8px", color: "#e2e8f0" }}>
                                         {key === "description" ? "Description *" : "Additional Info"}
                                     </label>
@@ -247,7 +247,6 @@ export default function MyEvents() {
                                         className="ai-gen-btn"
                                         onClick={key === "description" ? handleAIGenerateEvent : handleAIGenerateAdditionalInfo}
                                         disabled={isGenerating}
-                                        style={{ marginTop: '0.5rem' }}
                                     >
                                         {isGenerating ? "✨ Generating..." : `✨ AI Generate ${key === "description" ? "Description" : "Info"}`}
                                     </button>

@@ -106,21 +106,23 @@ export default function AdminCreateEvent({ onEventCreated }) {
           onChange={e => setForm({ ...form, title: e.target.value })}
         />
 
-        <label>Description</label>
-        <textarea
-          placeholder="Detailed Description"
-          value={form.description}
-          onChange={e => setForm({ ...form, description: e.target.value })}
-          rows="4"
-        />
-        <button
-          type="button"
-          className="ai-gen-btn"
-          onClick={handleAIGenerate}
-          disabled={isGenerating}
-        >
-          {isGenerating ? "✨ Generating..." : "✨ AI Generate Description"}
-        </button>
+        <div style={{ marginBottom: '16px' }}>
+          <label>Description</label>
+          <textarea
+            placeholder="Detailed Description"
+            value={form.description}
+            onChange={e => setForm({ ...form, description: e.target.value })}
+            rows="4"
+          />
+          <button
+            type="button"
+            className="ai-gen-btn"
+            onClick={handleAIGenerate}
+            disabled={isGenerating}
+          >
+            {isGenerating ? "✨ Generating..." : "✨ AI Generate Description"}
+          </button>
+        </div>
 
         <label>Conducted By</label>
         <input
@@ -129,21 +131,23 @@ export default function AdminCreateEvent({ onEventCreated }) {
           onChange={e => setForm({ ...form, conducted_by: e.target.value })}
         />
 
-        <label>Additional Info</label>
-        <textarea
-          placeholder="e.g., Bring laptops, prerequisites..."
-          value={form.additional_info}
-          onChange={e => setForm({ ...form, additional_info: e.target.value })}
-          rows="2"
-        />
-        <button
-          type="button"
-          className="ai-gen-btn"
-          onClick={handleAIGenerateAdditionalInfo}
-          disabled={isGenerating}
-        >
-          {isGenerating ? "✨ Generating..." : "✨ AI Generate Info"}
-        </button>
+        <div style={{ marginBottom: '16px' }}>
+          <label>Additional Info</label>
+          <textarea
+            placeholder="e.g., Bring laptops, prerequisites..."
+            value={form.additional_info}
+            onChange={e => setForm({ ...form, additional_info: e.target.value })}
+            rows="2"
+          />
+          <button
+            type="button"
+            className="ai-gen-btn"
+            onClick={handleAIGenerateAdditionalInfo}
+            disabled={isGenerating}
+          >
+            {isGenerating ? "✨ Generating..." : "✨ AI Generate Info"}
+          </button>
+        </div>
 
         <label>Date & Venue</label>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>

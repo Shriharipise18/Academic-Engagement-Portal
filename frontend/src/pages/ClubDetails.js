@@ -378,39 +378,41 @@ export default function ClubDetails() {
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
             />
 
-            <label>Description</label>
-            <textarea
-              name="description"
-              rows={3}
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            />
-            <button
-              type="button"
-              className="ai-gen-btn"
-              onClick={handleAIGenerateClub}
-              disabled={isGenerating}
-              style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', width: 'auto', marginBottom: '1rem' }}
-            >
-              {isGenerating ? "✨ Generating..." : "✨ AI Generate Description"}
-            </button>
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', marginBottom: '8px' }}>Description</label>
+              <textarea
+                name="description"
+                rows={3}
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              />
+              <button
+                type="button"
+                className="ai-gen-btn"
+                onClick={handleAIGenerateClub}
+                disabled={isGenerating}
+              >
+                {isGenerating ? "✨ Generating..." : "✨ AI Generate Description"}
+              </button>
+            </div>
 
-            <label>Activities</label>
-            <textarea
-              name="activities"
-              rows={3}
-              value={formData.activities}
-              onChange={(e) => setFormData({ ...formData, activities: e.target.value })}
-            />
-            <button
-              type="button"
-              className="ai-gen-btn"
-              onClick={handleAIGenerateActivities}
-              disabled={isGenerating}
-              style={{ width: 'auto' }}
-            >
-              {isGenerating ? "✨ Generating..." : "✨ AI Generate Activities"}
-            </button>
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', marginBottom: '8px' }}>Activities</label>
+              <textarea
+                name="activities"
+                rows={3}
+                value={formData.activities}
+                onChange={(e) => setFormData({ ...formData, activities: e.target.value })}
+              />
+              <button
+                type="button"
+                className="ai-gen-btn"
+                onClick={handleAIGenerateActivities}
+                disabled={isGenerating}
+              >
+                {isGenerating ? "✨ Generating..." : "✨ AI Generate Activities"}
+              </button>
+            </div>
 
             <button type="submit">Save Changes</button>
             <button type="button" onClick={() => setEditing(false)}>Cancel</button>

@@ -46,6 +46,12 @@ export default function ClubDetails() {
 
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
+  const showToast = useCallback((msg, type = "success") => {
+    setToastType(type);
+    setToast(msg);
+    setTimeout(() => setToast(null), 2500);
+  }, []);
+
   const fetchClub = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");

@@ -54,12 +54,6 @@ export default function EventCard({ event, isRegistered }) {
         </div>
       </div>
 
-      {/* Toast */}
-      {toast && (
-        <div className={`toast ${toast.type}`}>
-          {toast.message}
-        </div>
-      )}
     </>
   );
 }

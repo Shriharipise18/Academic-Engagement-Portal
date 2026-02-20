@@ -32,12 +32,11 @@ app.use(cors({ origin: process.env.FRONTEND_URL || "*" }));
 /* Serve static files (uploaded photos) */
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-/* Health check */
-app.get("/", (req, res) => {
-  res.json({ status: "Backend running" });
+/* Routes */
+app.get("/api", (req, res) => {
+  res.json({ message: "Academic Engagement Portal API is running" });
 });
 
-/* Routes */
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/clubs", clubRoutes);

@@ -27,6 +27,28 @@ export default function EventRegisterPage() {
     tshirt: "",
     notes: ""
   });
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleAIGenerateNotes = async () => {
+    if (!event) {
+      toast.error("Event details not loaded!");
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      const response = await api.post("/ai/generate", {
+        prompt: `I am registering for the event "${event.title}". Suggest some relevant questions or notes for the organizers about this event. Keep it brief.`,
+        type: "chat"
+      });
+      setFormData(prev => ({ ...prev, notes: response.data.response }));
+      toast.success("✨ AI generated notes!");
+    } catch {
+      toast.error("AI generation failed.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   // IMMEDIATE authentication check on mount
   useEffect(() => {
@@ -217,6 +239,15 @@ export default function EventRegisterPage() {
           <input name="year" type="number" placeholder="Year (1-4)" value={formData.year} onChange={handleChange} required />
           <input name="rollNo" placeholder="College Roll Number" value={formData.rollNo} onChange={handleChange} required />
           <textarea name="notes" placeholder="Any notes or questions" value={formData.notes} onChange={handleChange}></textarea>
+          <button
+            type="button"
+            className="ai-gen-btn"
+            onClick={handleAIGenerateNotes}
+            disabled={isGenerating}
+            style={{ marginTop: '0.4rem', marginBottom: '1rem', width: 'auto' }}
+          >
+            {isGenerating ? "✨ Generating..." : "✨ AI Generate Notes/Questions"}
+          </button>
 
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Submitting..." : "Register"}

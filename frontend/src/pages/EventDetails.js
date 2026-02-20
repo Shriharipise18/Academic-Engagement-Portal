@@ -15,6 +15,47 @@ export default function EventDetails() {
   const [attendees, setAttendees] = useState([]);
   const [showAttendees, setShowAttendees] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleAIGenerate = async () => {
+    if (!form.title) {
+      setToast({ message: "Please enter a title first!", type: "error" });
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      const response = await api.post("/ai/generate", {
+        title: form.title,
+        type: "event"
+      });
+      setForm(prev => ({ ...prev, description: response.data.content }));
+    } catch {
+      setToast({ message: "AI generation failed.", type: "error" });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleAIGenerateAdditionalInfo = async () => {
+    if (!form.title) {
+      setToast({ message: "Please enter a title first!", type: "error" });
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      const response = await api.post("/ai/generate", {
+        prompt: `Provide some practical "Additional Info" (like what to bring, prerequisites, or notes) for a college event titled: "${form.title}". Keep it brief.`,
+        type: "chat"
+      });
+      setForm(prev => ({ ...prev, additional_info: response.data.response }));
+    } catch {
+      setToast({ message: "AI generation failed.", type: "error" });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   // Load logged-in user
   useEffect(() => {
@@ -259,6 +300,16 @@ export default function EventDetails() {
             onChange={handleChange}
             placeholder="Description"
           />
+          <button
+            type="button"
+            className="ai-gen-btn"
+            onClick={handleAIGenerate}
+            disabled={isGenerating}
+            style={{ marginBottom: '1rem' }}
+          >
+            {isGenerating ? "✨ Generating..." : "✨ AI Generate Description"}
+          </button>
+
           <input
             type="date"
             name="date"
@@ -278,6 +329,15 @@ export default function EventDetails() {
             onChange={handleChange}
             placeholder="Additional Information"
           />
+          <button
+            type="button"
+            className="ai-gen-btn"
+            onClick={handleAIGenerateAdditionalInfo}
+            disabled={isGenerating}
+            style={{ marginBottom: '1rem' }}
+          >
+            {isGenerating ? "✨ Generating..." : "✨ AI Generate Info"}
+          </button>
           <input
             type="text"
             name="conducted_by"

@@ -19,6 +19,49 @@ export default function MyEvents() {
         additional_info: "",
         conducted_by: ""
     });
+    const [isGenerating, setIsGenerating] = useState(false);
+
+    const handleAIGenerateEvent = async () => {
+        if (!eventForm.title) {
+            showToast("Please enter an event title first!", "error");
+            return;
+        }
+
+        setIsGenerating(true);
+        try {
+            const response = await api.post("/ai/generate", {
+                title: eventForm.title,
+                type: "event"
+            });
+            setEventForm(prev => ({ ...prev, description: response.data.content }));
+            showToast("✨ AI generated event description!");
+        } catch {
+            showToast("AI generation failed.", "error");
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
+    const handleAIGenerateAdditionalInfo = async () => {
+        if (!eventForm.title) {
+            showToast("Please enter an event title first!", "error");
+            return;
+        }
+
+        setIsGenerating(true);
+        try {
+            const response = await api.post("/ai/generate", {
+                prompt: `Provide some practical "Additional Info" (like what to bring, prerequisites, or notes) for a college event titled: "${eventForm.title}". Keep it brief.`,
+                type: "chat"
+            });
+            setEventForm(prev => ({ ...prev, additional_info: response.data.response }));
+            showToast("✨ AI generated additional info!");
+        } catch {
+            showToast("AI generation failed.", "error");
+        } finally {
+            setIsGenerating(false);
+        }
+    };
 
     const showToast = (msg, type = "success") => {
         setToast(msg);
@@ -199,6 +242,15 @@ export default function MyEvents() {
                                             color: "#fff", fontSize: "1rem", boxSizing: "border-box", resize: "vertical"
                                         }}
                                     />
+                                    <button
+                                        type="button"
+                                        className="ai-gen-btn"
+                                        onClick={key === "description" ? handleAIGenerateEvent : handleAIGenerateAdditionalInfo}
+                                        disabled={isGenerating}
+                                        style={{ marginTop: '0.5rem' }}
+                                    >
+                                        {isGenerating ? "✨ Generating..." : `✨ AI Generate ${key === "description" ? "Description" : "Info"}`}
+                                    </button>
                                 </div>
                             ))}
 

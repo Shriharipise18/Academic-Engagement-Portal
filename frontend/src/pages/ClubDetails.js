@@ -171,6 +171,48 @@ export default function ClubDetails() {
     }
   };
 
+  const handleAIGenerateActivities = async () => {
+    if (!formData.name) {
+      showToast("Please enter a club name first!", "error");
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      const response = await api.post("/ai/generate", {
+        prompt: `List 5-7 engaging activities for a college club named "${formData.name}" with tagline "${formData.tagline}". Format as a concise bulleted list.`,
+        type: "chat" // Use chat for custom prompt
+      });
+      setFormData(prev => ({ ...prev, activities: response.data.response }));
+      showToast("✨ AI generated activities!");
+    } catch {
+      showToast("AI generation failed.", "error");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleAIGenerateAdditionalInfo = async () => {
+    if (!eventForm.title) {
+      showToast("Please enter an event title first!", "error");
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      const response = await api.post("/ai/generate", {
+        prompt: `Provide some practical "Additional Info" (like what to bring, prerequisites, or notes) for a college event titled: "${eventForm.title}". Keep it brief.`,
+        type: "chat"
+      });
+      setEventForm(prev => ({ ...prev, additional_info: response.data.response }));
+      showToast("✨ AI generated additional info!");
+    } catch {
+      showToast("AI generation failed.", "error");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   const submitEdit = async (e) => {
     e.preventDefault();
     try {
@@ -360,6 +402,15 @@ export default function ClubDetails() {
               value={formData.activities}
               onChange={(e) => setFormData({ ...formData, activities: e.target.value })}
             />
+            <button
+              type="button"
+              className="ai-gen-btn"
+              onClick={handleAIGenerateActivities}
+              disabled={isGenerating}
+              style={{ width: 'auto' }}
+            >
+              {isGenerating ? "✨ Generating..." : "✨ AI Generate Activities"}
+            </button>
 
             <button type="submit">Save Changes</button>
             <button type="button" onClick={() => setEditing(false)}>Cancel</button>
@@ -607,6 +658,15 @@ export default function ClubDetails() {
                   rows="2"
                   placeholder="e.g., Bring laptops"
                 />
+                <button
+                  type="button"
+                  className="ai-gen-btn"
+                  onClick={handleAIGenerateAdditionalInfo}
+                  disabled={isGenerating}
+                  style={{ marginTop: '0.5rem' }}
+                >
+                  {isGenerating ? "✨ Generating..." : "✨ AI Generate Info"}
+                </button>
               </div>
 
               <div className="modal-actions">
